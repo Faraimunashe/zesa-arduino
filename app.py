@@ -12,8 +12,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # You can change this to any folder on your system
 ALLOWED_EXTENSIONS = {'jpeg'}
 
-serial_port = 'COM7'
-arduino = serial.Serial(serial_port, 9600, timeout=1)
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ProfessorSecret'
@@ -28,9 +27,17 @@ login_manager.init_app(app)
 scheduler = BackgroundScheduler(daemon=True)
 
 
+serial_port = 'COM7'
+arduino = serial.Serial(serial_port, 9600, timeout=1)
+    
 
 with app.app_context():
     db.create_all()
+    
+
+def init_scheduler():
+    scheduler.add_job(my_task, 'interval', seconds=10)
+    scheduler.start()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -45,6 +52,17 @@ def allowed_file(filename):
 def index():
     meter = Meter.query.filter_by(user_id=session['userid']).first()
     return render_template('index.html', meter=meter)
+
+def my_task():
+    meter = Meter.query.filter_by(user_id=session['userid']).first()
+    meter.units = meter.units - 123
+    db.session.commit()
+    
+    data = str(meter.units)
+    arduino.write(data.encode())
+    
+    print("Executing task...")
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -276,6 +294,7 @@ def report():
 @app.route('/activate', methods=['GET'])
 @login_required
 def activate():
+    
     data = "1"
     arduino.write(data.encode())
     return redirect(url_for('index'))
@@ -288,20 +307,14 @@ def deactivate():
     return redirect(url_for('index'))
 
 
-def my_task():
-    meter = Meter.query.filter_by(user_id=session['userid']).first()
-    meter.units = meter.units - 123
-    db.session.commit()
-    
-    
-    print("Executing task...")
 
-# Define the endpoint that starts the scheduler
+
 @app.route('/start_scheduler')
 def start_scheduler():
-    scheduler.add_job(my_task, 'interval', minutes=1)
-    scheduler.start()
-    return 'Scheduler started!'
+    my_task()
+    # scheduler.add_job(my_task, 'interval', minutes=1)
+    # scheduler.start()
+    return render_template('magic.html')
 
 
 
@@ -315,4 +328,5 @@ def logout():
 
 
 if __name__ == "__main__":
+    #init_scheduler()
     app.run(host='0.0.0.0', port=5000, debug=True)
