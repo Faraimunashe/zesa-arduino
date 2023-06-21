@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="pricing" class="pricing mt-5 pt-3 mb-3">
+    <div class="container" data-aos="fade-up">
+        <div class="row gy-4">
+            <div class="col-lg-2" data-aos="zoom-in" data-aos-delay="200">
+            </div><!-- End Pricing Item -->
+
+            <div class="col-lg-8" data-aos="zoom-in" data-aos-delay="400">
+                <div class="pricing-item featured">
+                    <div class="pricing-header">
+                        <h4 class="text-warning fw-bolder">Account Login</h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row gy-4">
+                                <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                                    <div class="card mt-2">
+                                        {% with messages = get_flashed_messages() %}
+                                            {% if messages %}
+                                                {% if 'error' in messages[0] or 'errors' in messages[0] %}
+                                                    <div class="alert alert-danger" role="alert">
+                                                        {{messages[0]}}
+                                                    </div>
+                                                {% else %}
+                                                    <div class="alert alert-success" role="alert">
+                                                        {{messages[0]}}
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endwith %}
+                                        <div class="card-body">
+                                            <form action="/register" method="post">
+                                                <div class="form-group mb-3">
+                                                    <input type="text" name="name" class="form-control" placeholder="Username" required>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <input type="email" name="email" class="form-control" placeholder="Email address" required>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm Password" required>
+                                                </div>
+                                                <div class="text-center">
+                                                    <button type="submit" class="btn btn-primary btn-block" style="float: right;">Register</button>
+                                                </div>
+                                            </form>
+                                            <div class="text-center">
+                                                Already have an account? <a href="/login">Login here</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End Pricing Item -->
+
+            <div class="col-lg-2" data-aos="zoom-in" data-aos-delay="600">
+            </div><!-- End Pricing Item -->
+        </div>
+    </div>
+</section><!-- End Pricing Section -->
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<section id="pricing" class="pricing">
+    <div class="container" data-aos="fade-up">
+        <div class="row gy-4">
+            <div class="col-2"></div>
+            <div class="col-8">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% if 'error' in messages[0] or 'errors' in messages[0] %}
+                            <div class="alert alert-danger" role="alert">
+                                {{messages[0]}}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-success" role="alert">
+                                {{messages[0]}}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endwith %}  
+            </div>
+            <div class="col-2"></div>
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8" data-aos="zoom-in" data-aos-delay="400">
+                <div class="pricing-item featured">
+                    <div class="pricing-header">
+                        <h4 class="text-warning fw-bolder">{{meter.num}}</h4>
+                        <p class="float-end fw-bold text-danger">Units : {{meter.units}}</p> <br>
+                    </div>
+                    <div class="tab-content">
+                        <div class="row gy-4">
+                            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                                <div class="card mt-2">
+                                    <div class="card-header">
+                                        <h6 style="color: red;" class="text">Emergency</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="" method="post">
+                                            <div class="form-group mb-3">
+                                                <select name="option" class="form-control" required>
+                                                    <option selected disabled>Select Option</option>
+                                                    {% for eme in emes %}
+                                                        <option value="{{eme.id}}">${{eme.price}} - {{eme.units}} units</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="text-center mb-3">
+                                                <button type="submit" class="buy-btn ">Emergency</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

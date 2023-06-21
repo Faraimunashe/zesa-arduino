@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- ======= Pricing Section ======= -->
+<section id="pricing" class="pricing">
+    <div class="container" data-aos="fade-up">
+        <div class="row gy-4">
+            <div class="col-12">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% if 'error' in messages[0] or 'errors' in messages[0] %}
+                            <div class="alert alert-danger" role="alert">
+                                {{messages[0]}}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-success" role="alert">
+                                {{messages[0]}}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endwith %}  
+            </div>
+            <div class="col-lg-2" data-aos="zoom-in" data-aos-delay="200">
+            </div><!-- End Pricing Item -->
+
+            <div class="col-lg-8" data-aos="zoom-in" data-aos-delay="400">
+                <div class="pricing-item featured">
+                    <div class="pricing-header">
+                        <h4 class="text-warning fw-bolder">{{meter.num}}</h4>
+                        <p class="float-end fw-bold text-danger">Units : {{meter.units}}</p> <br>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active show" id="tab-1">
+                            <div class="row gy-4">
+                            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                                <h3 class="text-info">Activation</h3>
+
+                                <div class="text-center mt-auto mt-2">
+                                    <a href="/activate" class="btn btn-primary btn-lg">Activate</a>
+                                    <a href="/deactivate" class="btn btn-danger btn-lg">De-activate</a>
+                                </div>
+
+                            </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane show" id="tab-5">
+                            <div class="row gy-4">
+                            <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                                
+
+                                <div class="card mt-3">
+                                <div class="card-header"><h6 style="color:red" class="text">Select Units</h6></div>
+                                <div class="card-body">
+                                <ul class="list-group">
+                                    <form action="" method="post">
+                                    <div class="form-group mt-3">
+                                        <label for="">Select Units</label>
+                                        <select name="" id="" class="form-control" >
+                                        <option value="">400 Units</option>
+                                        <option value="">1000 Units</option>
+                                        <option value="">20000 Units</option>
+                                        <option value="">50000 Units</option>
+                                        </select>
+
+                                
+                                    </div>
+                                    
+                                    </form>
+                                </ul>
+                                </div>
+                                <div class="text-center mt-auto mt-2">
+                                <a href="#" class="buy-btn">Submit</a>
+                                </div>
+                                </div>
+
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div><!-- End Pricing Item -->
+
+            <div class="col-lg-2" data-aos="zoom-in" data-aos-delay="600">
+            </div><!-- End Pricing Item -->
+        </div>
+    </div>
+</section><!-- End Pricing Section -->
+{% endblock %}
